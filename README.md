@@ -12,13 +12,13 @@ Datadog *Real User Monitoring (RUM)* enables you to visualize and analyze the re
 To install with NPM, run:
 
 ```sh
-npm install dd-sdk-reactnative
+npm install @datadog/reactnative-sdk
 ```
 
 To install with Yarn, run:
 
 ```sh
-yarn add dd-sdk-reactnative
+yarn add @datadog/reactnative-sdk
 ```
 
 **Minimum React Native version**: SDK supports React Native version 0.63.4 or higher. Compatibility with older versions is not guaranteed out of the box.
@@ -62,6 +62,22 @@ await DdSdkReactNative.initialize(config)
 ## Track view navigation
 
 **Note**: Automatic View tracking relies on the [React Navigation](https://reactnavigation.org/) package (minimum supported version is `react-navigation/native@5.6.0`). If you use another package to handle navigation in your application, use the manual instrumentation method described below.
+
+### Setup
+
+To install with NPM, run:
+
+```sh
+npm install @datadog/reactnative-sdk-react-navigation
+```
+
+To install with Yarn, run:
+
+```sh
+yarn add @datadog/reactnative-sdk-react-navigation
+```
+
+### Usage
 
 To track changes in navigation as RUM Views, set the `onready` callback of your `NavigationContainer` component:
 

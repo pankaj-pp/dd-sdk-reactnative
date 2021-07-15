@@ -10,7 +10,10 @@
   ],
   "author": "Datadog (https://github.com/DataDog)",
   "homepage": "https://github.com/DataDog/dd-sdk-reactnative#readme",
-  "repository": "https://github.com/DataDog/dd-sdk-reactnative",
+  "repository": {
+    "url": "https://github.com/DataDog/dd-sdk-reactnative",
+    "directory": "packages/react-native-navigation"
+  },
   "bugs": {
     "url": "https://github.com/DataDog/dd-sdk-reactnative/issues"
   },
@@ -39,6 +42,7 @@
     "react-native-navigation": "7.13.0"
   },
   "peerDependencies": {
+    "@datadog/reactnative-sdk": "^1.0.0-beta4",
     "react": "^16.13.1",
     "react-native": "^0.63.4",
     "react-native-navigation": "^7.5.0"
