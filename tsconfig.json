@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "composite": true,
     "paths": {
-      "dd-sdk-reactnative": [
-        "./src/index"
-      ]
+      "@datadog/*": ["./packages/*/src"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
@@ -30,6 +29,9 @@
   },
   "exclude": [
     "example",
-    "src/__tests__"
+    "lib",
+    "__tests__",
+    "packages/*/lib",
+    "packages/*/src/__tests__"
   ]
 }
