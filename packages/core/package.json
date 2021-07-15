@@ -1,6 +1,6 @@
 {
   "name": "@datadog/reactnative-sdk",
-  "version": "1.0.0-beta3",
+  "version": "1.0.0-beta4",
   "description": "A client-side React Native module to interact with Datadog",
   "keywords": [
     "datadog",
