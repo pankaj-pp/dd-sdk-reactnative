@@ -1,4 +1,4 @@
-import { TrackingConsent } from "@datadog/reactnative-sdk";
+import { TrackingConsent } from "@datadog/react-native-sdk";
 import React, { Component } from "react";
 import { Modal, View, FlatList, Pressable, Text } from "react-native";
 import ConsentItem from './ConsentItem';

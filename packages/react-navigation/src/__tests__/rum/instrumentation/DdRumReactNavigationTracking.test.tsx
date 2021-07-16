@@ -7,12 +7,12 @@
 import React from 'react';
 import { View, Text, Button, AppState } from 'react-native';
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
-import { DdRum } from '@datadog/reactnative-sdk';
+import { DdRum } from '@datadog/react-native-sdk';
 import DdRumReactNavigationTracking from '../../../rum/instrumentation/DdRumReactNavigationTracking';
 import { render, fireEvent } from '@testing-library/react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-jest.mock('@datadog/reactnative-sdk', () => {
+jest.mock('@datadog/react-native-sdk', () => {
     return {
         DdRum: {
             // eslint-disable-next-line @typescript-eslint/no-empty-function

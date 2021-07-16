@@ -13,6 +13,17 @@ To get started with the project, run `yarn install` in the root directory to ins
 yarn install
 ```
 
+### Project structure overview
+
+Repository contains 2 main projects:
+
+* SDK project, which consists of 3 workspaces: `react-native-sdk`, `react-native-sdk-react-navigation`, `react-native-sdk-react-native-navigation`
+* Sample app project (in the `example` folder)
+
+Sample app project exists as dedicated project, because React Native tooling (`Metro` bundler specifically) [doesn't support symbolic links](https://github.com/facebook/metro/issues/1) which is utilized by the [yarn workspaces](https://classic.yarnpkg.com/en/docs/workspaces/) to have a single places for hosting `node_modules`. On the other hand, having symbolic links for SDK modules works fine, because it doesn't use React Native build tooling for running tests and linting.
+
+Workspaces are managed with [Lerna](https://github.com/lerna/lerna).
+
 ### Native Module development
 
 By default, the iOS and Android source files are automatically generated based on the [dd-mobile-bridge](https://github.com/DataDog/dd-mobile-bridge) repository. 
@@ -27,10 +38,13 @@ You can run the samples, linters and test using the following commands:
 
 ```sh
 # Run the Unit Tests
-npm test
+yarn test
 
 # Run the linter
-npm run lint
+yarn lint
+
+# Run a command for the particular workspace (ex. @datadog/react-native-sdk)
+yarn workspace @datadog/react-native-sdk <command>
 ```
 
 Before you run tests locally, make sure you modify the local version of `node_modules/react-native-gesture-handler/jestSetup.js` to be:
@@ -64,7 +78,7 @@ export const CLIENT_TOKEN = "<YOUR_CLIENT_TOKEN>";
 export const ENVIRONMENT = "<YOUR_ENVIRONMENT_NAME>";
 ```
 
-You can then run the sample app using the following commands (from `example` folder):
+You can then run the sample app using the following commands (from `example` folder, make sure to do `yarn install` before):
 
 ```sh
 # Run the Android sample
@@ -74,23 +88,42 @@ yarn android
 yarn ios
 ```
 
+## Releasing
 
-## How to test before shipping?
+To bump SDK version, run the following command:
+
+```sh
+yarn run lerna version <version> --ignore-changes --skip-git
+```
+
+This will bump versions in the `lerna.json` and related `package.json` files, they need to be committed after that.
+
+Normally [lerna version](https://github.com/lerna/lerna/tree/main/commands/version#readme) can bump version only for modules which were changed, generate changelog and push changes, but we are not using these capabilities yet.
+
+To publish packages, run the following command:
+
+```sh
+yarn run lerna publish from-package
+```
+
+This will do the publishing and also put `gitHead` to the corresponding `package.json` files.
+
+### How to test before shipping?
 
 #### For iOS, run `make test-for-release`. If it doesn't work, read below
 
-1. `cd path/to/dd-sdk-reactnative && npm pack`
+1. `cd path/to/dd-sdk-reactnative && yarn workspace @datadog/react-native-sdk pack`
     * this creates a tarball from your local & unpublished package
-2. `cd {some other folder} && react-native init SomeAppName && cd SomeAppName`
-3. `npm install --save path/to/dd-sdk-reactnative/{tarball that npm pack created}`
+2. `cd {some other folder} && react-native init SomeAppName --version 0.63.4 && cd SomeAppName`
+3. `npm install --save path/to/dd-sdk-reactnative/packages/core/{tarball that npm pack created}`
     * this installs the unpublished version of `dd-sdk-reactnative` **from your local**
  
-If for some reason `npm pack` doesn't work, you can do the workaround below after creating `SomeAppName`:
+If for some reason `yarn pack` doesn't work, you can do the workaround below after creating `SomeAppName`:
 
-1. `npm install --save path/to/dd-sdk-reactnative`
-2. `open node_modules` and remove symlink to `dd-sdk-reactnative`
-3. copy the real `dd-sdk-reactnative` folder to `node_modules`
-    * `react-native` doesn't support symlinks and JS engine gives `unresolved module: dd-sdk-reactnative` when you import it in your JS code
+1. `yarn install --save path/to/dd-sdk-reactnative/packages/core`
+2. `open node_modules` and remove symlink to `@datadog/react-native-sdk`
+3. copy the real `@datadog/react-native-sdk` folder to `node_modules`
+    * `react-native` doesn't support symlinks and JS engine gives `unresolved module: @datadog/react-native-sdk` when you import it in your JS code
 
 Now you can proceed to `/ios`:
 
@@ -105,10 +138,10 @@ use_frameworks!
 ```
 **NOTE:** You do **NOT** need to add `dd-sdk-reactnative` here manually, `pod install` should find and install it automatically
 
-Now you can go back to your `App.js/tsx` and use `dd-sdk-reactnative` from there
+Now you can go back to your `App.js/tsx` and use `@datadog/react-native-sdk` from there
 Example code:
 ```
-import { DdSdkReactNative, DdSdkReactNativeConfiguration } from 'dd-sdk-reactnative';
+import { DdSdkReactNative, DdSdkReactNativeConfiguration } from '@datadog/react-native-sdk';
 
 const App: () => React$Node = () => {
   const config = new DdSdkReactNativeConfiguration(

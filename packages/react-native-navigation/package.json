@@ -1,5 +1,5 @@
 {
-  "name": "@datadog/reactnative-sdk-react-native-navigation",
+  "name": "@datadog/react-native-sdk-react-native-navigation",
   "version": "1.0.0-beta4",
   "description": "A client-side React Native module to interact with Datadog",
   "keywords": [
@@ -37,12 +37,12 @@
     "prepare": "bob build"
   },
   "devDependencies": {
-    "@datadog/reactnative-sdk": "^1.0.0-beta4",
+    "@datadog/react-native-sdk": "^1.0.0-beta4",
     "react-native-gesture-handler": "1.10.3",
     "react-native-navigation": "7.13.0"
   },
   "peerDependencies": {
-    "@datadog/reactnative-sdk": "^1.0.0-beta4",
+    "@datadog/react-native-sdk": "^1.0.0-beta4",
     "react": "^16.13.1",
     "react-native": "^0.63.4",
     "react-native-navigation": "^7.5.0"

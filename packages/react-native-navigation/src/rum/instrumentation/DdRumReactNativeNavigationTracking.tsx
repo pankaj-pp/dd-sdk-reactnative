@@ -6,7 +6,7 @@
 
 import React from 'react'
 import { ComponentDidAppearEvent, Navigation } from 'react-native-navigation';
-import { DdRum } from '@datadog/reactnative-sdk';
+import { DdRum } from '@datadog/react-native-sdk';
 
 /**
 * Provides RUM integration for the [React Native Navigation](https://wix.github.io/react-native-navigation) API.
