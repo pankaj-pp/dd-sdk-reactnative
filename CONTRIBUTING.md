@@ -24,6 +24,8 @@ Sample app project exists as dedicated project, because React Native tooling (`M
 
 Workspaces are managed with [Lerna](https://github.com/lerna/lerna).
 
+If you are using Visual Studio Code, please make sure to set workspace version of TypeScript instead of bundled with Visual Studio, check [this](https://stackoverflow.com/a/39676463/3222695) to see how to do it.
+
 ### Native Module development
 
 By default, the iOS and Android source files are automatically generated based on the [dd-mobile-bridge](https://github.com/DataDog/dd-mobile-bridge) repository. 
