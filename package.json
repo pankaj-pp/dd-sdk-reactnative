@@ -21,7 +21,7 @@
     ]
   },
   "scripts": {
-    "prepare": "lerna bootstrap && lerna run prepare",
+    "prepare": "lerna link && lerna run prepare",
     "test": "jest",
     "lint": "eslint .",
     "example": "yarn --cwd example"

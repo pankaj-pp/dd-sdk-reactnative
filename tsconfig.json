@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "composite": true,
     "paths": {
-      "@datadog/*": ["./packages/*/src"]
+      "@datadog/react-native-sdk": [
+        "./packages/core/src"
+      ]
     },
+    "declaration": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,
