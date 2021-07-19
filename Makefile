@@ -1,4 +1,6 @@
 RELEASE_TEST_APP_NAME = ReleaseTestApp
+REACT_NATIVE_VERSION := $(shell node --eval="require('./example/package.json').dependencies['react-native']" -p)
+CORE_PACKAGE_VERSION := $(shell node --eval="require('./packages/core/package.json').version" -p)
 
 define ReleaseTestAppPodfile
 require_relative '../node_modules/react-native/scripts/react_native_pods'\n
@@ -36,9 +38,8 @@ export SDKUsageJavascript
 
 test-for-release:
 	yarn install && yarn workspace @datadog/react-native-sdk pack
-	npx react-native init ${RELEASE_TEST_APP_NAME} --version 0.63.4
-	# datadog-react-native-sdk-v1.0.0-beta4.tgz is hardcoded for now, ideally we should read the version from package.json
-	cd ${RELEASE_TEST_APP_NAME} && npm install --save ../packages/core/datadog-react-native-sdk-v1.0.0-beta4.tgz
+	npx react-native init ${RELEASE_TEST_APP_NAME} --version ${REACT_NATIVE_VERSION}
+	cd ${RELEASE_TEST_APP_NAME} && npm install --save ../packages/core/datadog-react-native-sdk-v${CORE_PACKAGE_VERSION}.tgz
 	# write to Podfile
 	echo $$ReleaseTestAppPodfile > ${RELEASE_TEST_APP_NAME}/ios/Podfile
 	# append to App.js
