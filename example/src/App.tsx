@@ -5,7 +5,7 @@ import MainScreen from './screens/MainScreen';
 import AboutScreen from './screens/AboutScreen';
 import style from './screens/styles';
 import { navigationRef } from './NavigationRoot';
-import { DdRumReactNavigationTracking } from '@datadog/react-native-sdk-react-navigation';
+import { DdRumReactNavigationTracking } from '@datadog/react-navigation';
 
 const Tab = createBottomTabNavigator();
 

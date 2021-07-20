@@ -23,7 +23,7 @@ endef
 export ReleaseTestAppPodfile
 
 define SDKUsageJavascript
-import { DdSdkReactNativeConfiguration, DdSdkReactNative, DdLogs, DdRum } from '@datadog/react-native-sdk';\n
+import { DdSdkReactNativeConfiguration, DdSdkReactNative, DdLogs, DdRum } from '@datadog/react-native';\n
 const config = new DdSdkReactNativeConfiguration("token", "env", "appID");\n
 DdSdkReactNative.initialize(config).then(() => {\n
   console.log("DD running...");\n
@@ -37,9 +37,9 @@ endef
 export SDKUsageJavascript
 
 test-for-release:
-	yarn install && yarn workspace @datadog/react-native-sdk pack
+	yarn install && yarn workspace @datadog/react-native pack
 	npx react-native init ${RELEASE_TEST_APP_NAME} --version ${REACT_NATIVE_VERSION}
-	cd ${RELEASE_TEST_APP_NAME} && npm install --save ../packages/core/datadog-react-native-sdk-v${CORE_PACKAGE_VERSION}.tgz
+	cd ${RELEASE_TEST_APP_NAME} && npm install --save ../packages/core/datadog-react-native-v${CORE_PACKAGE_VERSION}.tgz
 	# write to Podfile
 	echo $$ReleaseTestAppPodfile > ${RELEASE_TEST_APP_NAME}/ios/Podfile
 	# append to App.js

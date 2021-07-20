@@ -12,13 +12,13 @@ Datadog *Real User Monitoring (RUM)* enables you to visualize and analyze the re
 To install with NPM, run:
 
 ```sh
-npm install @datadog/react-native-sdk
+npm install @datadog/react-native
 ```
 
 To install with Yarn, run:
 
 ```sh
-yarn add @datadog/react-native-sdk
+yarn add @datadog/react-native
 ```
 
 **Minimum React Native version**: SDK supports React Native version 0.63.4 or higher. Compatibility with older versions is not guaranteed out of the box.
@@ -68,13 +68,13 @@ await DdSdkReactNative.initialize(config)
 To install with NPM, run:
 
 ```sh
-npm install @datadog/react-native-sdk-react-navigation
+npm install @datadog/react-navigation
 ```
 
 To install with Yarn, run:
 
 ```sh
-yarn add @datadog/react-native-sdk-react-navigation
+yarn add @datadog/react-navigation
 ```
 
 ### Usage

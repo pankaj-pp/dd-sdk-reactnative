@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import styles from './styles';
 import { APPLICATION_KEY, API_KEY } from '../../src/ddCredentials';
-import { DdSdkReactNative, TrackingConsent } from '@datadog/react-native-sdk';
+import { DdSdkReactNative, TrackingConsent } from '@datadog/react-native';
 import { getTrackingConsent, saveTrackingConsent } from '../utils';
 import { ConsentModal } from '../components/consent';
 

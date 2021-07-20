@@ -15,12 +15,15 @@ yarn install
 
 ### Project structure overview
 
-Repository contains 2 main projects:
+This repository contains 2 main projects:
 
-* SDK project, which consists of 3 workspaces: `react-native-sdk`, `react-native-sdk-react-navigation`, `react-native-sdk-react-native-navigation`
+* SDK project (in the `packages` folder), which consists of 3 workspaces:
+    * `core`: the core React Native SDK allowing tracking of logs, spans and RUM events.
+    * `react-native-navigation`: an integration for the [react-native-navigation](https://github.com/wix/react-native-navigation) library.
+    * `react-navigation`: an integration for the [react-navigation](https://github.com/react-navigation/react-navigation) library.
 * Sample app project (in the `example` folder)
 
-Sample app project exists as dedicated project, because React Native tooling (`Metro` bundler specifically) [doesn't support symbolic links](https://github.com/facebook/metro/issues/1) which is utilized by the [yarn workspaces](https://classic.yarnpkg.com/en/docs/workspaces/) to have a single places for hosting `node_modules`. On the other hand, having symbolic links for SDK modules works fine, because it doesn't use React Native build tooling for running tests and linting.
+The sample app project exists as dedicated project, because the React Native tooling, the `Metro` bundler specifically, [doesn't support symbolic links](https://github.com/facebook/metro/issues/1), and symbolic links are used by the [yarn workspaces](https://classic.yarnpkg.com/en/docs/workspaces/) to have a single place for hosting `node_modules`.
 
 Workspaces are managed with [Lerna](https://github.com/lerna/lerna).
 
@@ -45,8 +48,8 @@ yarn test
 # Run the linter
 yarn lint
 
-# Run a command for the particular workspace (ex. @datadog/react-native-sdk)
-yarn workspace @datadog/react-native-sdk <command>
+# Run a command for the particular workspace (ex. @datadog/react-native)
+yarn workspace @datadog/react-native <command>
 ```
 
 Before you run tests locally, make sure you modify the local version of `node_modules/react-native-gesture-handler/jestSetup.js` to be:
@@ -92,29 +95,27 @@ yarn ios
 
 ## Releasing
 
-To bump SDK version, run the following command:
+To bump your SDK version, run the following command:
 
 ```sh
 yarn run lerna version <version> --ignore-changes --skip-git
 ```
 
-This will bump versions in the `lerna.json` and related `package.json` files, they need to be committed after that.
+This bumps the versions in the `lerna.json` and related `package.json` files, and then they need to be committed.
 
-Normally [lerna version](https://github.com/lerna/lerna/tree/main/commands/version#readme) can bump version only for modules which were changed, generate changelog and push changes, but we are not using these capabilities yet.
-
-To publish packages, run the following command:
+To publish the packages, run the following command:
 
 ```sh
 yarn run lerna publish from-package
 ```
 
-This will do the publishing and also put `gitHead` to the corresponding `package.json` files.
+This publishes the packages and also adds updated `gitHead` to the corresponding `package.json` files.
 
 ### How to test before shipping?
 
 #### For iOS, run `make test-for-release`. If it doesn't work, read below
 
-1. `cd path/to/dd-sdk-reactnative && yarn workspace @datadog/react-native-sdk pack`
+1. `cd path/to/dd-sdk-reactnative && yarn workspace @datadog/react-native pack`
     * this creates a tarball from your local & unpublished package
 2. `cd {some other folder} && react-native init SomeAppName --version 0.63.4 && cd SomeAppName`
 3. `npm install --save path/to/dd-sdk-reactnative/packages/core/{tarball that npm pack created}`
@@ -123,9 +124,9 @@ This will do the publishing and also put `gitHead` to the corresponding `package
 If for some reason `yarn pack` doesn't work, you can do the workaround below after creating `SomeAppName`:
 
 1. `yarn install --save path/to/dd-sdk-reactnative/packages/core`
-2. `open node_modules` and remove symlink to `@datadog/react-native-sdk`
-3. copy the real `@datadog/react-native-sdk` folder to `node_modules`
-    * `react-native` doesn't support symlinks and JS engine gives `unresolved module: @datadog/react-native-sdk` when you import it in your JS code
+2. `open node_modules` and remove symlink to `@datadog/react-native`
+3. copy the real `@datadog/react-native` folder to `node_modules`
+    * `react-native` doesn't support symlinks and JS engine gives `unresolved module: @datadog/react-native` when you import it in your JS code
 
 Now you can proceed to `/ios`:
 
@@ -140,10 +141,10 @@ use_frameworks!
 ```
 **NOTE:** You do **NOT** need to add `dd-sdk-reactnative` here manually, `pod install` should find and install it automatically
 
-Now you can go back to your `App.js/tsx` and use `@datadog/react-native-sdk` from there
+Now you can go back to your `App.js/tsx` and use `@datadog/react-native` from there
 Example code:
 ```
-import { DdSdkReactNative, DdSdkReactNativeConfiguration } from '@datadog/react-native-sdk';
+import { DdSdkReactNative, DdSdkReactNativeConfiguration } from '@datadog/react-native';
 
 const App: () => React$Node = () => {
   const config = new DdSdkReactNativeConfiguration(
