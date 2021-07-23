@@ -33,7 +33,7 @@ If you are using Visual Studio Code, please make sure to set workspace version o
 
 By default, the iOS and Android source files are automatically generated based on the [dd-mobile-bridge](https://github.com/DataDog/dd-mobile-bridge) repository. 
 
-To edit the Objective-C files, open `example/ios/DdSdkReactNativeExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > dd-sdk-reactnative`.
+To edit the Objective-C files, open `example/ios/DdSdkReactNativeExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > DdSdkReactNative`.
 
 To edit the Kotlin files, open `example/android` in Android studio and find the source files at `ddsdkreactnative` under `Android`.
 
@@ -48,8 +48,8 @@ yarn test
 # Run the linter
 yarn lint
 
-# Run a command for the particular workspace (ex. @datadog/react-native)
-yarn workspace @datadog/react-native <command>
+# Run a command for the particular workspace (ex. @datadog/mobile-react-native)
+yarn workspace @datadog/mobile-react-native <command>
 ```
 
 Before you run tests locally, make sure you modify the local version of `node_modules/react-native-gesture-handler/jestSetup.js` to be:
@@ -115,18 +115,18 @@ This publishes the packages and also adds updated `gitHead` to the corresponding
 
 #### For iOS, run `make test-for-release`. If it doesn't work, read below
 
-1. `cd path/to/dd-sdk-reactnative && yarn workspace @datadog/react-native pack`
+1. `cd path/to/dd-sdk-reactnative && yarn workspace @datadog/mobile-react-native pack`
     * this creates a tarball from your local & unpublished package
 2. `cd {some other folder} && react-native init SomeAppName --version 0.63.4 && cd SomeAppName`
 3. `npm install --save path/to/dd-sdk-reactnative/packages/core/{tarball that npm pack created}`
-    * this installs the unpublished version of `dd-sdk-reactnative` **from your local**
+    * this installs the unpublished version of `@datadog/mobile-react-native` **from your local**
  
 If for some reason `yarn pack` doesn't work, you can do the workaround below after creating `SomeAppName`:
 
 1. `yarn install --save path/to/dd-sdk-reactnative/packages/core`
-2. `open node_modules` and remove symlink to `@datadog/react-native`
-3. copy the real `@datadog/react-native` folder to `node_modules`
-    * `react-native` doesn't support symlinks and JS engine gives `unresolved module: @datadog/react-native` when you import it in your JS code
+2. `open node_modules` and remove symlink to `@datadog/mobile-react-native`
+3. copy the real `@datadog/mobile-react-native` folder to `node_modules`
+    * `react-native` doesn't support symlinks and JS engine gives `unresolved module: @datadog/mobile-react-native` when you import it in your JS code
 
 Now you can proceed to `/ios`:
 
@@ -139,12 +139,12 @@ use_frameworks!
 
 # and disable Flipper related lines
 ```
-**NOTE:** You do **NOT** need to add `dd-sdk-reactnative` here manually, `pod install` should find and install it automatically
+**NOTE:** You do **NOT** need to add `DdSdkReactNative` here manually, `pod install` should find and install it automatically
 
-Now you can go back to your `App.js/tsx` and use `@datadog/react-native` from there
+Now you can go back to your `App.js/tsx` and use `@datadog/mobile-react-native` from there
 Example code:
 ```
-import { DdSdkReactNative, DdSdkReactNativeConfiguration } from '@datadog/react-native';
+import { DdSdkReactNative, DdSdkReactNativeConfiguration } from '@datadog/mobile-react-native';
 
 const App: () => React$Node = () => {
   const config = new DdSdkReactNativeConfiguration(

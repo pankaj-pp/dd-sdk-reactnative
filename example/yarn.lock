@@ -657,13 +657,13 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@datadog/react-native-navigation@file:../packages/react-native-navigation":
+"@datadog/mobile-react-native-navigation@file:../packages/react-native-navigation":
   version "1.0.0-beta4"
 
-"@datadog/react-navigation@file:../packages/react-navigation":
+"@datadog/mobile-react-navigation@file:../packages/react-navigation":
   version "1.0.0-beta4"
 
-"@datadog/react-native@file:../packages/core":
+"@datadog/mobile-react-native@file:../packages/core":
   version "1.0.0-beta4"
 
 "@egjs/hammerjs@^2.0.17":

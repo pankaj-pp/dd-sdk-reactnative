@@ -1,5 +1,5 @@
 {
-  "name": "@datadog/react-native",
+  "name": "@datadog/mobile-react-native",
   "version": "1.0.0-beta4",
   "description": "A client-side React Native module to interact with Datadog",
   "keywords": [
@@ -21,7 +21,7 @@
     "lib",
     "android",
     "ios",
-    "dd-sdk-reactnative.podspec",
+    "DatadogSDKReactNative.podspec",
     "!lib/typescript/example",
     "!android/build",
     "!ios/build",
