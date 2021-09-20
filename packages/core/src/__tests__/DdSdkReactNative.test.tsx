@@ -341,71 +341,100 @@ it('M call SDK method W setTrackingConsent', async () => {
     expect(DdSdk.setTrackingConsent).toHaveBeenCalledWith(consent)
 })
 
-it('M set proxy configuration W initialize { with proxy config, without proxy credentials }', async () => {
-    // GIVEN
-    const fakeAppId = "1"
-    const fakeClientToken = "2"
-    const fakeEnvName = "env"
-    const configuration = new DdSdkReactNativeConfiguration(fakeClientToken, fakeEnvName, fakeAppId, false, false, false)
-    configuration.proxyConfig = {
-        type: ProxyType.HTTP,
-        address: "1.1.1.1",
-        port: 8080
-    }
+describe.each([[ProxyType.HTTP], [ProxyType.HTTPS], [ProxyType.SOCKS]])('proxy configs test, no auth', proxyType => {
+    it(`M set proxy configuration W initialize { + proxy config, w/o proxy credentials, proxyType=${proxyType} }`, async () => {
+        // GIVEN
+        const fakeAppId = "1"
+        const fakeClientToken = "2"
+        const fakeEnvName = "env"
+        const proxyAddress = "1.1.1.1"
+        const proxyPort = 8080
 
-    NativeModules.DdSdk.initialize.mockResolvedValue(null)
+        const configuration = new DdSdkReactNativeConfiguration(
+            fakeClientToken,
+            fakeEnvName,
+            fakeAppId,
+            false,
+            false,
+            false
+        )
 
-    // WHEN
-    await DdSdkReactNative.initialize(configuration)
+        configuration.proxyConfig = {
+            type: proxyType,
+            address: proxyAddress,
+            port: proxyPort
+        }
 
-    // THEN
-    expect(NativeModules.DdSdk.initialize.mock.calls.length).toBe(1);
-    const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock.calls[0][0] as DdSdkConfiguration
-    expect(ddSdkConfiguration.clientToken).toBe(fakeClientToken)
-    expect(ddSdkConfiguration.applicationId).toBe(fakeAppId)
-    expect(ddSdkConfiguration.env).toBe(fakeEnvName)
-    expect(ddSdkConfiguration.additionalConfig).toStrictEqual({
-        '_dd.source': 'react-native',
-        '_dd.native_view_tracking': false,
-        '_dd.proxy.type': 'http',
-        '_dd.proxy.address': '1.1.1.1',
-        '_dd.proxy.port': 8080
+        NativeModules.DdSdk.initialize.mockResolvedValue(null)
+
+        // WHEN
+        await DdSdkReactNative.initialize(configuration)
+
+        // THEN
+        expect(NativeModules.DdSdk.initialize.mock.calls.length).toBe(1);
+        const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock.calls[0][0] as DdSdkConfiguration
+        expect(ddSdkConfiguration.clientToken).toBe(fakeClientToken)
+        expect(ddSdkConfiguration.applicationId).toBe(fakeAppId)
+        expect(ddSdkConfiguration.env).toBe(fakeEnvName)
+        expect(ddSdkConfiguration.additionalConfig).toStrictEqual({
+            '_dd.source': 'react-native',
+            '_dd.native_view_tracking': false,
+            '_dd.proxy.type': proxyType,
+            '_dd.proxy.address': proxyAddress,
+            '_dd.proxy.port': proxyPort
+        })
     })
 })
 
-it('M set proxy configuration W initialize { with proxy config + proxy credentials }', async () => {
-    // GIVEN
-    const fakeAppId = "1"
-    const fakeClientToken = "2"
-    const fakeEnvName = "env"
-    const configuration = new DdSdkReactNativeConfiguration(fakeClientToken, fakeEnvName, fakeAppId, false, false, false)
-    configuration.proxyConfig = {
-        type: ProxyType.HTTP,
-        address: "1.1.1.1",
-        port: 8080,
-        username: "foo",
-        password: "bar"
-    }
+describe.each([[ProxyType.HTTP], [ProxyType.HTTPS]])('proxy configs test + auth', proxyType => {
+    it(`M set proxy configuration W initialize { with proxy config + proxy credentials, proxyType=${proxyType} }`, async () => {
+        // GIVEN
+        const fakeAppId = "1"
+        const fakeClientToken = "2"
+        const fakeEnvName = "env"
 
-    NativeModules.DdSdk.initialize.mockResolvedValue(null)
+        const proxyAddress = "1.1.1.1"
+        const proxyPort = 8080
+        const proxyUsername = "foo"
+        const proxyPassword = "bar"
 
-    // WHEN
-    await DdSdkReactNative.initialize(configuration)
+        const configuration = new DdSdkReactNativeConfiguration(
+            fakeClientToken,
+            fakeEnvName,
+            fakeAppId,
+            false,
+            false,
+            false
+        )
 
-    // THEN
-    expect(NativeModules.DdSdk.initialize.mock.calls.length).toBe(1);
-    const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock.calls[0][0] as DdSdkConfiguration
-    expect(ddSdkConfiguration.clientToken).toBe(fakeClientToken)
-    expect(ddSdkConfiguration.applicationId).toBe(fakeAppId)
-    expect(ddSdkConfiguration.env).toBe(fakeEnvName)
-    expect(ddSdkConfiguration.additionalConfig).toStrictEqual({
-        '_dd.source': 'react-native',
-        '_dd.native_view_tracking': false,
-        '_dd.proxy.type': 'http',
-        '_dd.proxy.address': '1.1.1.1',
-        '_dd.proxy.port': 8080,
-        '_dd.proxy.username': 'foo',
-        '_dd.proxy.password': 'bar'
+        configuration.proxyConfig = {
+            type: proxyType,
+            address: proxyAddress,
+            port: proxyPort,
+            username: proxyUsername,
+            password: proxyPassword
+        }
+
+        NativeModules.DdSdk.initialize.mockResolvedValue(null)
+
+        // WHEN
+        await DdSdkReactNative.initialize(configuration)
+
+        // THEN
+        expect(NativeModules.DdSdk.initialize.mock.calls.length).toBe(1);
+        const ddSdkConfiguration = NativeModules.DdSdk.initialize.mock.calls[0][0] as DdSdkConfiguration
+        expect(ddSdkConfiguration.clientToken).toBe(fakeClientToken)
+        expect(ddSdkConfiguration.applicationId).toBe(fakeAppId)
+        expect(ddSdkConfiguration.env).toBe(fakeEnvName)
+        expect(ddSdkConfiguration.additionalConfig).toStrictEqual({
+            '_dd.source': 'react-native',
+            '_dd.native_view_tracking': false,
+            '_dd.proxy.type': proxyType,
+            '_dd.proxy.address': proxyAddress,
+            '_dd.proxy.port': proxyPort,
+            '_dd.proxy.username': proxyUsername,
+            '_dd.proxy.password': proxyPassword
+        })
     })
 })
 
@@ -414,13 +443,19 @@ it('M log a warning W initialize { with socks proxy config + proxy credentials }
     const fakeAppId = "1"
     const fakeClientToken = "2"
     const fakeEnvName = "env"
+    const proxyType = ProxyType.SOCKS
+    const proxyAddress = "1.1.1.1"
+    const proxyPort = 8080
+    const proxyUsername = "foo"
+    const proxyPassword = "bar"
+
     const configuration = new DdSdkReactNativeConfiguration(fakeClientToken, fakeEnvName, fakeAppId, false, false, false)
     configuration.proxyConfig = {
-        type: ProxyType.SOCKS,
-        address: "1.1.1.1",
-        port: 8080,
-        username: "foo",
-        password: "bar"
+        type: proxyType,
+        address: proxyAddress,
+        port: proxyPort,
+        username: proxyUsername,
+        password: proxyPassword
     }
 
     NativeModules.DdSdk.initialize.mockResolvedValue(null)
@@ -439,9 +474,9 @@ it('M log a warning W initialize { with socks proxy config + proxy credentials }
         expect(ddSdkConfiguration.additionalConfig).toStrictEqual({
             '_dd.source': 'react-native',
             '_dd.native_view_tracking': false,
-            '_dd.proxy.type': 'socks',
-            '_dd.proxy.address': '1.1.1.1',
-            '_dd.proxy.port': 8080
+            '_dd.proxy.type': proxyType,
+            '_dd.proxy.address': proxyAddress,
+            '_dd.proxy.port': proxyPort
         })
         expect(spyConsoleWarn).toHaveBeenCalledTimes(1)
     } finally {
