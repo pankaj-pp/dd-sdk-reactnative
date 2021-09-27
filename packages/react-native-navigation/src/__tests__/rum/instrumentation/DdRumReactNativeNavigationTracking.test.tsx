@@ -19,7 +19,7 @@ jest.mock('@datadog/mobile-react-native', () => {
 jest.useFakeTimers();
 
 let mockRegisterComponentListener = jest.fn().mockImplementation(() => { })
-jest.mock('react-native-navigation', () => {
+jest.mock('@dream11mobile/react-native-navigation', () => {
     return {
         Navigation: {
             events: jest.fn().mockImplementation(() => {

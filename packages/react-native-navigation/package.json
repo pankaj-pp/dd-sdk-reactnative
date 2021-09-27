@@ -38,13 +38,13 @@
   "devDependencies": {
     "@datadog/mobile-react-native": "^1.0.0-rc2",
     "react-native-gesture-handler": "1.10.3",
-    "react-native-navigation": "7.13.0"
+    "@dream11mobile/react-native-navigation": "7.3.0-beta-39"
   },
   "peerDependencies": {
     "@datadog/mobile-react-native": "^1.0.0-beta4",
     "react": ">=16.13.1",
     "react-native": "^0.63.4",
-    "react-native-navigation": "^7.5.0"
+    "@dream11mobile/react-native-navigation": "7.3.0-beta-39"
   },
   "jest": {
     "preset": "react-native",

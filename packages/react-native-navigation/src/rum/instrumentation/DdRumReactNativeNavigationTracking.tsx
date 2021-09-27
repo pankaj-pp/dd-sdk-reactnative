@@ -5,7 +5,7 @@
  */
 
 import React from 'react'
-import { ComponentDidAppearEvent, Navigation } from 'react-native-navigation';
+import { ComponentDidAppearEvent, Navigation } from '@dream11mobile/react-native-navigation';
 import { DdRum } from '@datadog/mobile-react-native';
 
 /**
@@ -28,7 +28,7 @@ export default class DdRumReactNativeNavigationTracking {
         const original = React.createElement
         DdRumReactNativeNavigationTracking.originalCreateElement = original
         React.createElement = (element: any, props: any, ...children: any): any => {
-            if (props && props.componentId != undefined 
+            if (props && props.componentId != undefined
                 && !DdRumReactNativeNavigationTracking.trackedComponentIds.includes(props.componentId)
             ) {
                 const componentId = props.componentId
